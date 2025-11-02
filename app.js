@@ -1,8 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { connectDB } from './confi/database.js';
-import router from './Router/usurioroute.js';
+import { connectDB } from './src/confi/database.js';
+import { base } from './src/router/routes.js';
+import routerAuth from './src/router/loginRoute.js';
+import routerUsuario from './src/router/usuarioRoute.js';
 
 
 dotenv.config();
@@ -17,7 +19,8 @@ app.use(express.json());
 connectDB();
 
 //  Rutas
-app.use('/api/usuarios',router);
+app.use(base, routerUsuario);
+app.use(base, routerAuth);
 
 //  Ruta base
 app.get('/', (req, res) => {

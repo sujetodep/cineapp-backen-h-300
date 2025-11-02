@@ -4,8 +4,9 @@ import mongoose from 'mongoose';
 const usuarioSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
   correo: { type: String, required: true, unique: true },
-  contraseña: { type: String, required: true },
-  rol: { type: String, enum: ['admin', 'usuario'], default: 'usuario' }
+  contrasenia: { type: String, required: true },
+  rol: { type: String, enum: ['admin', 'usuario'], default: 'usuario' },
+  token: { type: String }
 }, { timestamps: true });
 
 
@@ -34,7 +35,7 @@ const horarioSchema = new mongoose.Schema({
   fechaInicio: { type: Date, required: true },
   fechaFin: { type: Date, required: false },
   proyecciones: [{ type: String, required: true }],
-horario: [{ type: Date, required: true }]
+  horario: [{ type: Date, required: true }]
 }, { timestamps: true });
 
 // Exportar modelos
