@@ -6,6 +6,9 @@ import { base } from './src/router/routes.js';
 import routerAuth from './src/router/loginRoute.js';
 import routerUsuario from './src/router/usuarioRoute.js';
 import routerGenero from './src/router/generoRoute.js';
+import routerPelicula from './src/router/peliculaRoute.js';
+import routerSala from './src/router/salaRoute.js';
+import routerCartelera from './src/router/carteleraRoute.js';
 
 
 dotenv.config();
@@ -23,6 +26,9 @@ connectDB();
 app.use(base, routerUsuario);
 app.use(base, routerAuth);
 app.use(base, routerGenero);
+app.use(base, routerPelicula);
+app.use(base, routerSala);
+app.use(base, routerCartelera);
 
 //  Ruta base
 app.get('/', (req, res) => {

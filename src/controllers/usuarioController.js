@@ -28,7 +28,7 @@ export const crearUsuario = async (req, res) => {
   try {
     const nuevoUsuario = new Usuario(req.body);
     await nuevoUsuario.save();
-    res.status(201).json(infoFront(nuevoUsuario));
+    res.status(201).json(infoFrontUsuario(nuevoUsuario));
   } catch (error) {
     console.error(error);
     res.status(400).json({ mensaje: 'Error al crear usuario', error });
@@ -51,15 +51,16 @@ export const actualizarUsuario = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json(infoFront(usuarioActualizado));
+    res.status(200).json(infoFrontUsuario(usuarioActualizado));
   } catch (error) {
     console.error(error);
     res.status(400).json({ mensaje: 'Error al actualizar usuario', error });
   }
 };
 
-export const infoFront = (usuario) => {
+export const infoFrontUsuario = (usuario) => {
   return {
+    "_id": usuario._id,
     "nombre": usuario.nombre,
     "correo": usuario.correo,
     "rol": usuario.rol,
