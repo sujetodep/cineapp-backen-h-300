@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { Usuario } from '../models/models.js';
+import { Usuario } from '../models/usuarioSchema.js';
 
 /**
  * Genera un token JWT reusable.
@@ -11,7 +11,7 @@ export function generarToken(payload, expiresIn = '2h') {
     return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn });
 }
 
-export const verificarToken = (req, res, next) => {
+export const verificarToken = async (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1]; // formato "Bearer token"
     if (!token) return res.status(401).json({ mensaje: 'Token no proporcionado' });
 
@@ -19,7 +19,7 @@ export const verificarToken = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.usuario = decoded;
 
-        const usuarioToken = Usuario.findOne(
+        const usuarioToken = await Usuario.findOne(
             {
                 correo: decoded.correo,
                 contrasenia: decoded.contrasenia,
@@ -27,7 +27,7 @@ export const verificarToken = (req, res, next) => {
             }
         );
 
-        if (usuarioToken === null) {
+        if (usuarioToken === null || !usuarioToken.nombre) {
             res.status(403).json({ mensaje: 'Token inválido o expirado' });
         } else {
             next();

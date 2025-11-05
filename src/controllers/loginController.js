@@ -1,6 +1,7 @@
-import Usuario from '../models/models.js';
+import Usuario from '../models/usuarioSchema.js';
 import { desencriptar } from "../utils/secure.js";
-import { generarToken, verificarToken } from './baseController.js';
+import { generarToken } from './baseController.js';
+import { infoFront } from './usuarioController.js';
 
 //  Crear un nuevo usuario
 export const login = async (req, res) => {
@@ -15,7 +16,9 @@ export const login = async (req, res) => {
         if (contrasenia === desencriptar(usuario?.contrasenia)) {
             // Generacion y actualizacion del token de sesion en la tabla de usuarios
             const tokenUsuario = await actualizarTokenUsuario(usuario);
-            res.status(200).json({ token: tokenUsuario.token });
+            res.status(200).json(
+                infoFront(tokenUsuario)
+            );
         } else {
             res.status(403).json({ mensaje: 'Usuario o contraseña inválido' });
         }
@@ -36,7 +39,7 @@ export const contrasenia = async (req, res) => {
             },
             { new: false }
         );
-        res.status(200).json(usuarioActualizado);
+        res.status(200).json(infoFront(usuarioActualizado));
     } catch (error) {
         console.error(error);
         res.status(400).json({ mensaje: 'Error al cambiar la contrasenia', error });

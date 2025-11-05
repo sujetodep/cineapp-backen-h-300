@@ -5,6 +5,7 @@ import { connectDB } from './src/confi/database.js';
 import { base } from './src/router/routes.js';
 import routerAuth from './src/router/loginRoute.js';
 import routerUsuario from './src/router/usuarioRoute.js';
+import routerGenero from './src/router/generoRoute.js';
 
 
 dotenv.config();
@@ -21,6 +22,7 @@ connectDB();
 //  Rutas
 app.use(base, routerUsuario);
 app.use(base, routerAuth);
+app.use(base, routerGenero);
 
 //  Ruta base
 app.get('/', (req, res) => {
